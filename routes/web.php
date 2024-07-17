@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PropertyController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +21,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     /**
      * Home Routes
      */
+
+    Route::get('form',[CategoryController::class,'index']);
+    Route::get('/autocomplete-category', [CategoryController::class, 'autocomplete'])->name('autocomplete.category');
+
+
+
     Route::get('/', 'HomeController@index')->name('home.index');
 
     Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
@@ -40,9 +49,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
 
     Route::group(['middleware' => ['auth']], function() {
-        /**
-         * Logout Routes
-         */
+
+
+        Route::resource('categories', CategoryController::class);
+        Route::resource('properties', PropertyController::class);
+
     });
 });
 
